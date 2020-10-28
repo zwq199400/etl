@@ -1,0 +1,11 @@
+server:
+  port: 8992
+spring:
+  application:
+    name: discovery
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.10.77:8848
+      config:
+        file-extension: yaml

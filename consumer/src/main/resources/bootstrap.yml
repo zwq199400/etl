@@ -1,0 +1,15 @@
+server:
+  port: 8993
+spring:
+  elasticsearch:
+    rest:
+      uris: localhost:9200
+      connection-timeout: 100
+  application:
+    name: consumer
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.10.96:8848
+      config:
+        file-extension: yaml
