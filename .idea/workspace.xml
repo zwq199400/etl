@@ -506,10 +506,10 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.ElasticTest.add" />
-        <item itemvalue="Application.ConsumerApplicationTests" />
         <item itemvalue="JUnit.ElasticTest.main" />
         <item itemvalue="JUnit.ElasticTest.delete" />
+        <item itemvalue="JUnit.ElasticTest.add" />
+        <item itemvalue="Application.ConsumerApplicationTests" />
         <item itemvalue="Application.CanalMessageHelp" />
       </list>
     </recent_temporary>
