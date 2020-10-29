@@ -38,13 +38,24 @@ public class ElasticTest {
     @Test
     public void add() {
         try {
-            CreateIndexRequest request = new CreateIndexRequest("test_idx123");
+            CreateIndexRequest request = new CreateIndexRequest("idx_user");
             request.mapping(
                     "{\n" +
                             "  \"properties\": {\n" +
-                            "\"addTime\" : {\n" +
-                            "          \"type\" : \"date\",\n" +
-                            "          \"format\" : \"epoch_second\"\n" +
+                            "\"id\" : {\n" +
+                            "          \"type\" : \"long\"\n" +
+                            "        }," +
+                            "\"name\": {\n" +
+                            "            \"type\": \"text\",\n" +
+                            "            \"fields\": {\n" +
+                            "              \"keyword\": {\n" +
+                            "                \"type\": \"keyword\",\n" +
+                            "                \"ignore_above\": 256\n" +
+                            "              }\n" +
+                            "            }\n" +
+                            "          }," +
+                            "\"age\" : {\n" +
+                            "          \"type\" : \"long\"\n" +
                             "        }" +
                             "  }\n" +
                             "}",
@@ -61,7 +72,7 @@ public class ElasticTest {
     @Test
     public void delete() {
         try {
-            DeleteIndexRequest deleteRequest = new DeleteIndexRequest("test_idx");
+            DeleteIndexRequest deleteRequest = new DeleteIndexRequest("test_idx123");
 
             AcknowledgedResponse acknowledgedResponse = restHighLevelClient.indices().delete(deleteRequest, RequestOptions.DEFAULT);
             boolean acknowledged = acknowledgedResponse.isAcknowledged();

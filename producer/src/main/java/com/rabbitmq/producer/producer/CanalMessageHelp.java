@@ -1,5 +1,6 @@
-package com.rabbitmq.producer.message;
+package com.rabbitmq.producer.producer;
 
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.otter.canal.client.CanalConnector;
 import com.alibaba.otter.canal.client.CanalConnectors;
 import com.alibaba.otter.canal.protocol.Message;
@@ -9,6 +10,7 @@ import com.alibaba.otter.canal.protocol.CanalEntry.EntryType;
 import com.alibaba.otter.canal.protocol.CanalEntry.EventType;
 import com.alibaba.otter.canal.protocol.CanalEntry.RowChange;
 import com.alibaba.otter.canal.protocol.CanalEntry.RowData;
+import com.etl.entity.pojo.BaseEntity;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -48,28 +50,31 @@ public class CanalMessageHelp {
             }
 
             EventType eventType = rowChage.getEventType();
-            System.out.println(String.format("================&gt; binlog[%s:%s] , name[%s,%s] , eventType : %s",
-                    entry.getHeader().getLogfileName(), entry.getHeader().getLogfileOffset(),
-                    entry.getHeader().getSchemaName(), entry.getHeader().getTableName(),
-                    eventType));
 
             for (RowData rowData : rowChage.getRowDatasList()) {
                 if (eventType == EventType.DELETE) {
-                    printColumn(rowData.getBeforeColumnsList());
+//                    printColumn(rowData.getBeforeColumnsList());
                 } else if (eventType == EventType.INSERT) {
-                    printColumn(rowData.getAfterColumnsList());
+//                    printColumn(rowData.getAfterColumnsList());
                 } else {
-                    System.out.println("-------&gt; before");
-                    printColumn(rowData.getBeforeColumnsList());
-                    System.out.println("-------&gt; after");
-                    printColumn(rowData.getAfterColumnsList());
+//                    System.out.println("-------&gt; before");
+//                    printColumn(rowData.getBeforeColumnsList());
+//                    System.out.println("-------&gt; after");
+//                    printColumn(rowData.getAfterColumnsList());
                 }
             }
         }
     }
 
-    private static void printColumn(List<Column> columns) {
+    private static void send(List<Column> columns, Integer eventType) {
         for (Column column : columns) {
+            BaseEntity baseEntity = new BaseEntity();
+            JSONObject param = new JSONObject();
+            param.put(column.getName(), column.getValue());
+            baseEntity.setEventType(eventType);
+            baseEntity.setIndex("idx_user");
+            baseEntity.setParam(param);
+            //发送该实体类
             System.out.println(column.getName() + " : " + column.getValue() + "    update=" + column.getUpdated());
         }
     }
