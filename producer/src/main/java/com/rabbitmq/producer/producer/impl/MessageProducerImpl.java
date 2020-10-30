@@ -18,7 +18,7 @@ import javax.annotation.Resource;
  * @date 2019/9/18 16:29
  * @since v1.0
  */
-@Service("importProducer")
+@Service("messageProducer")
 @EnableBinding({TestBinder.class})
 public class MessageProducerImpl implements MessageProducer {
     private static final Logger LOG = LoggerFactory.getLogger(MessageProducerImpl.class);
@@ -28,9 +28,9 @@ public class MessageProducerImpl implements MessageProducer {
     public void sendMessage(BaseEntity baseEntity) {
         MessageBuilder<BaseEntity> messageBuilder = MessageBuilder.withPayload(baseEntity);;
         Message<BaseEntity> message = messageBuilder.build();
-        boolean send = testBinder.testBinder().send(message);
+        boolean send = testBinder.testQueue().send(message);
         if(!send){
-            LOG.error("导入消息发送失败");
+            LOG.error("消息发送失败");
         }
     }
 }

@@ -14,5 +14,5 @@ import org.springframework.stereotype.Service;
 public interface TestBinder {
 
     @Output(TestBinderConstant.TEST_QUEUE)
-    MessageChannel testBinder();
+    MessageChannel testQueue();
 }

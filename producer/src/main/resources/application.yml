@@ -3,16 +3,16 @@ spring:
     stream:
       bindings:
         #生产者绑定，消息通道name
-        test_queue:
+        testQueue:
           # #exchange名称，交换模式默认是topic
-          destination: test_queue
+          destination: testQueue
           binder: testBinder
       rabbit:
         bindings:
           #===============新增============#
-          test_queue:
+          testQueue:
             producer:
-              routing-key-expression: '''test_queue'''
+              routing-key-expression: '''test'''
       binders:
         testBinder:
           type: rabbit
@@ -23,4 +23,4 @@ spring:
                 password: 123456
                 host: 192.168.10.22
                 port: 5672
-                virtual-host: /
+                virtual-host: /test

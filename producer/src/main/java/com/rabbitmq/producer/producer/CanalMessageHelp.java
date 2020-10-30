@@ -14,6 +14,7 @@ import com.etl.entity.pojo.BaseEntity;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import java.net.InetSocketAddress;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -35,7 +36,10 @@ public class CanalMessageHelp {
         return new Thread(r, name);
     });
 
-    private static void printEntry(List<Entry> entrys) {
+    @Resource
+    private MessageProducer messageProducer;
+
+    private void printEntry(List<Entry> entrys) {
         for (Entry entry : entrys) {
             if (entry.getEntryType() == EntryType.TRANSACTIONBEGIN || entry.getEntryType() == EntryType.TRANSACTIONEND) {
                 continue;
@@ -53,29 +57,34 @@ public class CanalMessageHelp {
 
             for (RowData rowData : rowChage.getRowDatasList()) {
                 if (eventType == EventType.DELETE) {
-//                    printColumn(rowData.getBeforeColumnsList());
+                    send(rowData.getBeforeColumnsList(), 0);
                 } else if (eventType == EventType.INSERT) {
-//                    printColumn(rowData.getAfterColumnsList());
+                    send(rowData.getAfterColumnsList(), 1);
                 } else {
-//                    System.out.println("-------&gt; before");
-//                    printColumn(rowData.getBeforeColumnsList());
-//                    System.out.println("-------&gt; after");
-//                    printColumn(rowData.getAfterColumnsList());
+                    System.out.println("-------&gt; before");
+                    send(rowData.getBeforeColumnsList(), 2);
+                    System.out.println("-------&gt; after");
+                    send(rowData.getAfterColumnsList(), 2);
                 }
             }
         }
     }
 
-    private static void send(List<Column> columns, Integer eventType) {
+    private void send(List<Column> columns, Integer eventType) {
+        BaseEntity baseEntity = new BaseEntity();
+        JSONObject param = new JSONObject();
         for (Column column : columns) {
-            BaseEntity baseEntity = new BaseEntity();
-            JSONObject param = new JSONObject();
             param.put(column.getName(), column.getValue());
-            baseEntity.setEventType(eventType);
-            baseEntity.setIndex("idx_user");
-            baseEntity.setParam(param);
             //发送该实体类
             System.out.println(column.getName() + " : " + column.getValue() + "    update=" + column.getUpdated());
+        }
+        baseEntity.setEventType(eventType);
+        baseEntity.setIndex("idx_user");
+        baseEntity.setParam(param);
+        try {
+            messageProducer.sendMessage(baseEntity);
+        } catch (Exception e) {
+            System.out.println("发送失败" + e);
         }
     }
 

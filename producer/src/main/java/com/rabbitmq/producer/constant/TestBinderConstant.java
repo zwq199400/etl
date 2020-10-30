@@ -7,5 +7,5 @@ package com.rabbitmq.producer.constant;
 
 public class TestBinderConstant {
 
-    public static final String TEST_QUEUE = "test_queue";
+    public static final String TEST_QUEUE = "testQueue";
 }

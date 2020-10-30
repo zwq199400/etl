@@ -6,19 +6,22 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="discovery" />
         <module name="consumer" />
-        <module name="producer" />
         <module name="entity" />
+        <module name="discovery" />
+        <module name="producer" />
         <module name="etl" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="8" />
+    <bytecodeTargetLevel target="8">
+      <module name="demo" target="6" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="PREFER_TARGET_JDK_COMPILER" value="false" />
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="consumer" options="-parameters" />
+      <module name="demo" options="-parameters" />
       <module name="discovery" options="-parameters" />
       <module name="entity" options="-parameters" />
       <module name="producer" options="-parameters" />

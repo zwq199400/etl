@@ -1,0 +1,29 @@
+spring:
+  #============ spring-cloud rabbitmq配置 ==========#
+  cloud:
+    stream:
+      bindings:
+        #============crm==============#
+        # 客户
+        testQueueInput:
+          destination: testQueue
+          binder: testBinder
+          group: test
+      rabbit:
+        bindings:
+          #============crm==============#
+          # 客户
+          testQueueInput:
+            consumer:
+              bindingRoutingKey: test
+      binders:
+        testBinder:
+          type: rabbit
+          environment:
+            spring:
+              rabbitmq:
+                username: test
+                password: 123456
+                host: 192.168.10.22
+                port: 5672
+                virtual-host: /test
