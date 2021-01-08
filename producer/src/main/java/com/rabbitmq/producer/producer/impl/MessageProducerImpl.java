@@ -13,10 +13,8 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 
 /**
- * @author 梁鲁江
- * @version v1.0
- * @date 2019/9/18 16:29
- * @since v1.0
+ * @author zhouwq
+ * @date 2021/1/8 13:58
  */
 @Service("messageProducer")
 @EnableBinding({TestBinder.class})
